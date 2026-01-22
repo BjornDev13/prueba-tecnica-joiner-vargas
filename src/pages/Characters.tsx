@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import CharacterModal from '../components/CharacterModal';
 import Filters from '../components/character/Filters';
 import CharacterGrid from '../components/character/CharacterGrid';
+import Loader from '../components/Loader';
 
 const Characters: React.FC = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -32,20 +33,29 @@ const Characters: React.FC = () => {
 
   useEffect(() => {
     loadCharacters();
-  }, [page]);
+  }, [page, filterName, filterRace, filterKi, filterAffiliation, filterGender]);
 
   const loadCharacters = async () => {
     try {
       setLoading(true);
       setError('');
-      const data = await characterService.getAll(page, 12);
+      const filters = {
+        name: filterName,
+        race: filterRace,
+        ki: filterKi,
+        affiliation: filterAffiliation,
+        gender: filterGender,
+      };
+      const data = await characterService.getAll(page, 12, filters);
       setCharacters(data.items);
       setTotalPages(data.meta.totalPages);
     } catch (err) {
       setError('Failed to load characters. Please try again.');
       console.error(err);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
 
@@ -133,15 +143,23 @@ const Characters: React.FC = () => {
     if (page !== 1) {
       setPage(1);
     }
-    setter(value);
+    setLoading(true);
+    setTimeout(() => {
+      setter(value);
+      setLoading(false);
+    }, 500);
   };
 
   const handleKiFilterChange = (value: string) => {
-    setFilterKi(value);
+    setLoading(true);
+    setTimeout(() => {
+      setFilterKi(value);
+      setLoading(false);
+    }, 500);
   };
 
-  if (loading && characters.length === 0) {
-    return <div className="loading">Loading characters...</div>;
+  if (loading) {
+    return <Loader show={loading} />;
   }
 
   return (

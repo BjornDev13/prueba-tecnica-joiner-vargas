@@ -11,10 +11,38 @@ const api = axios.create({
 });
 
 export const characterService = {
-  // Get all characters with pagination
-  getAll: async (page: number = 1, limit: number = 10) => {
-    const response = await api.get<ApiResponse<Character>>(`/characters?page=${page}&limit=${limit}`);
-    return response.data;
+  // Get all characters with pagination and filtering
+  getAll: async (page: number = 1, limit: number = 10, filters: Record<string, string | number> = {}) => {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+
+    let hasFilters = false;
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params.append(key, value.toString());
+        hasFilters = true;
+      }
+    });
+
+    const response = await api.get<ApiResponse<Character> | Character[]>(`/characters?${params.toString()}`);
+    
+    if (Array.isArray(response.data)) {
+      return {
+        items: response.data,
+        meta: {
+          totalItems: response.data.length,
+          itemCount: response.data.length,
+          itemsPerPage: limit,
+          totalPages: 1,
+          currentPage: 1,
+        },
+        links: {}
+      };
+    }
+    
+    return response.data as ApiResponse<Character>;
   },
 
   // Get character by ID
@@ -41,15 +69,42 @@ export const characterService = {
   // Delete character (simulated)
   delete: async (_id: number) => {
     // await api.delete(`/characters/${id}`);
+    console.log(`Character with ID ${_id} deleted (simulated).`);
     return { success: true };
   },
 };
 
 export const planetService = {
-  // Get all planets with pagination
-  getAll: async (page: number = 1, limit: number = 10) => {
-    const response = await api.get<ApiResponse<Planet>>(`/planets?page=${page}&limit=${limit}`);
-    return response.data;
+  // Get all planets with pagination and filtering
+  getAll: async (page: number = 1, limit: number = 10, filters: Record<string, string | number | boolean> = {}) => {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params.append(key, value.toString());
+      }
+    });
+
+    const response = await api.get<ApiResponse<Planet> | Planet[]>(`/planets?${params.toString()}`);
+
+    if (Array.isArray(response.data)) {
+      return {
+        items: response.data,
+        meta: {
+          totalItems: response.data.length,
+          itemCount: response.data.length,
+          itemsPerPage: limit,
+          totalPages: 1,
+          currentPage: 1,
+        },
+        links: {}
+      };
+    }
+
+    return response.data as ApiResponse<Planet>;
   },
 
   // Get planet by ID

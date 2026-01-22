@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { planetService } from '../services/api';
 import type { Planet } from '../types';
+import Filters from '../components/planets/Filters';
+import Loader from '../components/Loader';
 
 const Planets: React.FC = () => {
   const [planets, setPlanets] = useState<Planet[]>([]);
@@ -9,38 +11,35 @@ const Planets: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filterName, setFilterName] = useState('');
-  const [filterDestroyed, setFilterDestroyed] = useState<string>('');
+  const [filterDestroyed, setFilterDestroyed] = useState<boolean>();
 
   useEffect(() => {
-    loadPlanets();
-  }, [page]);
+    loadPlanets(filterName, filterDestroyed);
+  }, [page, filterName, filterDestroyed]);
 
-  const loadPlanets = async () => {
+  const loadPlanets = async (name?: string, isDestroyed?: boolean) => {
     try {
       setLoading(true);
       setError('');
-      const data = await planetService.getAll(page, 12);
+      const filters: Record<string, string | number | boolean> = {};
+      if (name) filters.name = name;
+      if (isDestroyed !== undefined) filters.isDestroyed = isDestroyed;
+
+      const data = await planetService.getAll(page, 12, filters);
       setPlanets(data.items);
       setTotalPages(data.meta.totalPages);
     } catch (err) {
       setError('Failed to load planets. Please try again.');
       console.error(err);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 500); // Simulate loading delay
     }
   };
 
-  const filteredPlanets = planets.filter((planet) => {
-    const matchesName = planet.name.toLowerCase().includes(filterName.toLowerCase());
-    const matchesDestroyed =
-      filterDestroyed === '' ||
-      (filterDestroyed === 'destroyed' && planet.isDestroyed) ||
-      (filterDestroyed === 'active' && !planet.isDestroyed);
-    return matchesName && matchesDestroyed;
-  });
+  const filteredPlanets = planets;
 
-  if (loading && planets.length === 0) {
-    return <div className="loading">Cargando planetas...</div>;
+  if (loading) {
+    return <Loader show={loading} />;
   }
 
   return (
@@ -51,30 +50,12 @@ const Planets: React.FC = () => {
 
       {error && <div className="error">{error}</div>}
 
-      <div className="filter-section">
-        <div className="filter-row">
-          <div className="form-group">
-            <label>Filtrar por Nombre</label>
-            <input
-              type="text"
-              value={filterName}
-              onChange={(e) => setFilterName(e.target.value)}
-              placeholder="Buscar por nombre..."
-            />
-          </div>
-          <div className="form-group">
-            <label>Filtrar por Estado</label>
-            <select
-              value={filterDestroyed}
-              onChange={(e) => setFilterDestroyed(e.target.value)}
-            >
-              <option value="">Todos</option>
-              <option value="active">Activo</option>
-              <option value="destroyed">Destruido</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <Filters
+        filterName={filterName}
+        setFilterName={setFilterName}
+        filterDestroyed={filterDestroyed}
+        setFilterDestroyed={setFilterDestroyed}
+      />
 
       <div className="grid">
         {filteredPlanets.map((planet) => (

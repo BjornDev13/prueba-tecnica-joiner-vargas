@@ -8,6 +8,8 @@ export interface Character {
   description: string;
   image: string;
   affiliation: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  originPlanet: any;
   deletedAt?: string | null;
 }
 

@@ -19,3 +19,16 @@ export interface CharacterGridProps {
     handleDelete: (character: Character) => void;
     user: { role: string } | null;
 }
+
+export interface ICharacterForm {
+    id?: number;
+    name: string;
+    ki: string;
+    maxKi: string;
+    race: string;
+    gender: string;
+    description: string;
+    originPlanet: string;
+    affiliation: string;
+    image: string;
+}

@@ -17,12 +17,26 @@ export default function Filters({
         <div className="filter-row">
           <div className="form-group">
             <label>Filtrar por Nombre</label>
+            <div className="input-with-clear">
             <input
               type="text"
-              value={filterName}
-              onChange={(e) => setFilterName(e.target.value)}
+              defaultValue={filterName}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                setFilterName(e.currentTarget.value);
+                }
+              }}
               placeholder="Buscar por nombre..."
             />
+            {filterName && (
+              <button
+                className="clear-btn"
+                onClick={() => setFilterName('')}
+              >
+                x
+              </button>
+            )}
+            </div>
           </div>
 
           <div className="form-group">
@@ -45,15 +59,29 @@ export default function Filters({
             </select>
           </div>
 
-          <div className="form-group">
+            <div className="form-group">
             <label>Filtrar por Ki</label>
-            <input
+            <div className="input-with-clear">
+              <input
               type="text"
-              value={filterKi}
-              onChange={(e) => setFilterKi(e.target.value)}
-              placeholder="Buscar por ki..."
-            />
-          </div>
+              defaultValue={filterKi}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                setFilterKi(e.currentTarget.value);
+                }
+              }}
+              placeholder="Buscar por ki y presionar Enter..."
+              />
+              {filterKi && (
+              <button
+                className="clear-btn"
+                onClick={() => setFilterKi('')}
+              >
+                x
+              </button>
+              )}
+            </div>
+            </div>
           <div className="form-group">
             <label>Filtrar por Afiliación</label>
             <select value={filterAffiliation} onChange={(e) => setFilterAffiliation(e.target.value)}>

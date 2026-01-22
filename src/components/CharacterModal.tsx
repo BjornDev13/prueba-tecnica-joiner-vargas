@@ -1,6 +1,37 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import type { Character } from '../types';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import type { Character, Planet } from '../types';
+import { planetService } from '../services/api';
+
+const schema = yup.object().shape({
+  name: yup.string()
+    .required('El nombre es requerido')
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .max(50, 'El nombre no puede tener más de 50 caracteres')
+    .matches(/^[A-Z]/, 'La primera letra del nombre debe ser mayúscula'),
+  ki: yup.string()
+    .required('El Ki es requerido')
+    .min(1, 'El Ki debe ser al menos 1')
+    .test('is-less-than-maxKi', 'El Ki no puede ser mayor que el Ki máximo', function (value) {
+      const { maxKi } = this.parent;
+      return Number(value) <= Number(maxKi);
+    }),
+  maxKi: yup.string().required('El Ki máximo es requerido'),
+  race: yup.string().required('La raza es requerida'),
+  gender: yup.string().required('El género es requerido'),
+  description: yup.string()
+    .required('La descripción es requerida')
+    .min(1, 'La descripción debe tener al menos 1 caracter')
+    .max(1000, 'La descripción no puede tener más de 1000 caracteres'),
+  originPlanet: yup.string().required('El planeta de origen es requerido'),
+  affiliation: yup.string()
+    .min(3, 'La afiliación debe tener al menos 3 caracteres')
+    .max(50, 'La afiliación no puede tener más de 50 caracteres')
+    .matches(/^[A-Z]/, 'La primera letra de la afiliación debe ser mayúscula'),
+  image: yup.string().url('Debe ser una URL válida').required('La imagen es requerida'),
+});
 
 interface CharacterModalProps {
   character: Character | null;
@@ -13,45 +44,55 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
   onSave,
   onClose,
 }) => {
-  const [formData, setFormData] = useState<Omit<Character, 'id'>>({
-    name: '',
-    ki: '',
-    maxKi: '',
-    race: '',
-    gender: '',
-    description: '',
-    image: '',
-    affiliation: '',
+  const [planets, setPlanets] = useState<Planet[]>([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Omit<Character, 'id'>>({
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {
+    const fetchPlanets = async () => {
+      try {
+        const response = await planetService.getAll(1, 100); // Adjust limit as needed
+        setPlanets(response.items);
+      } catch (error) {
+        console.error('Error fetching planets:', error);
+      }
+    };
+
+    fetchPlanets();
+  }, []);
+
+  useEffect(() => {
     if (character) {
-      setFormData({
-        name: character.name,
-        ki: character.ki,
-        maxKi: character.maxKi,
-        race: character.race,
-        gender: character.gender,
-        description: character.description,
-        image: character.image,
-        affiliation: character.affiliation,
+      reset({
+        ...character,
+        originPlanet: character.originPlanet?.name || '',
+      });
+    } else {
+      reset({
+        name: '',
+        ki: '',
+        maxKi: '',
+        race: '',
+        gender: '',
+        description: '',
+        image: '',
+        affiliation: '',
+        originPlanet: '',
       });
     }
-  }, [character]);
+  }, [character, reset]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = (data: Omit<Character, 'id'>) => {
     onSave({
-      ...formData,
+      ...data,
       id: character?.id || 0,
     } as Character);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -64,17 +105,15 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
             <label htmlFor="name">Nombre *</label>
             <input
               type="text"
               id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
+              {...register('name')}
             />
+            {errors.name && <p className="error-message">{errors.name.message}</p>}
           </div>
 
           <div className="form-group">
@@ -82,63 +121,66 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
             <input
               type="text"
               id="race"
-              name="race"
-              value={formData.race}
-              onChange={handleChange}
-              required
+              {...register('race')}
             />
+            {errors.race && <p className="error-message">{errors.race.message}</p>}
           </div>
 
           <div className="form-group">
             <label htmlFor="gender">Género *</label>
             <select
               id="gender"
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              required
+              {...register('gender')}
             >
               <option value="">Seleccionar género</option>
               <option value="Male">Masculino</option>
               <option value="Female">Femenino</option>
               <option value="Other">Otro</option>
             </select>
+            {errors.gender && <p className="error-message">{errors.gender.message}</p>}
           </div>
 
           <div className="form-group">
             <label htmlFor="ki">Ki *</label>
             <input
-              type="text"
+              type="number"
               id="ki"
-              name="ki"
-              value={formData.ki}
-              onChange={handleChange}
-              required
+              {...register('ki')}
             />
+            {errors.ki && <p className="error-message">{errors.ki.message}</p>}
           </div>
 
           <div className="form-group">
             <label htmlFor="maxKi">Ki Máximo *</label>
             <input
-              type="text"
+              type="number"
               id="maxKi"
-              name="maxKi"
-              value={formData.maxKi}
-              onChange={handleChange}
-              required
+              {...register('maxKi')}
             />
+            {errors.maxKi && <p className="error-message">{errors.maxKi.message}</p>}
           </div>
 
           <div className="form-group">
-            <label htmlFor="affiliation">Afiliación *</label>
+            <label htmlFor="originPlanet">Planeta de Origen *</label>
+            <select id="originPlanet" {...register('originPlanet')}>
+              <option value="">Seleccionar planeta</option>
+              {planets.map((planet) => (
+                <option key={planet.id} value={planet.name}>
+                  {planet.name}
+                </option>
+              ))}
+            </select>
+            {errors.originPlanet && <p className="error-message">{errors.originPlanet.message}</p>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="affiliation">Afiliación</label>
             <input
               type="text"
               id="affiliation"
-              name="affiliation"
-              value={formData.affiliation}
-              onChange={handleChange}
-              required
+              {...register('affiliation')}
             />
+            {errors.affiliation && <p className="error-message">{errors.affiliation.message}</p>}
           </div>
 
           <div className="form-group">
@@ -146,23 +188,19 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
             <input
               type="url"
               id="image"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
+              {...register('image')}
               placeholder="https://example.com/image.jpg"
-              required
             />
+            {errors.image && <p className="error-message">{errors.image.message}</p>}
           </div>
 
           <div className="form-group">
             <label htmlFor="description">Descripción *</label>
             <textarea
               id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
+              {...register('description')}
             />
+            {errors.description && <p className="error-message">{errors.description.message}</p>}
           </div>
 
           <div className="modal-footer">

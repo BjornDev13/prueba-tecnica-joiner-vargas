@@ -450,6 +450,27 @@ table {
   }
 }
 
+.input-with-clear {
+  position: relative;
+
+  .clear-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: $text-color;
+    padding: 0;
+
+    &:hover {
+      color: $danger-color;
+    }
+  }
+}
+
 // Responsive
 @media (max-width: 768px) {
   .navbar {
