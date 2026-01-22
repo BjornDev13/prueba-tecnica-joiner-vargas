@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { User, AuthContextType } from '../types';
-import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -12,7 +11,6 @@ const MOCK_USERS = [
 ];
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
@@ -35,7 +33,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
-    navigate('/');
   };
 
   const value = {

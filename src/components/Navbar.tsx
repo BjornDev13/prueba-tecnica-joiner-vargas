@@ -1,9 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const closeAApp = () => {
+    navigate('/login');
+    setTimeout(() => {
+      logout();
+    }, 100);
+  }
 
   return (
     <nav className="navbar">
@@ -24,7 +32,7 @@ const Navbar: React.FC = () => {
         <div className="user-info">
           <span className="user-name">{user?.username}</span>
           <span className="user-role">{user?.role}</span>
-          <button onClick={logout} className="logout-btn">
+          <button onClick={closeAApp} className="logout-btn">
             Cerrar Sesión
           </button>
         </div>
