@@ -9,7 +9,8 @@ $super-saiyan-yellow: #ffd700;
 $cloud-white: #ffffff;
 $soft-white-border: rgba(255, 255, 255, 0.1);
 $transparent-bg: rgba(255, 255, 255, 0.05);
-
+$border-color: rgba(255, 255, 255, 0.1);
+$blur-effect: blur(10px);
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -64,42 +65,73 @@ $transparent-bg: rgba(255, 255, 255, 0.05);
     }
   }
 
-  .card-actions {
+.card-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border-color;
+
+  .btn {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 12px; // Bordes más suaves para el estilo Glassmorphism
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); // Animación dinámica
     display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid $soft-white-border;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
 
-    .btn {
-      flex: 1;
-      font-size: 1rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
+  // Estilo Ki de Vegeta (Blue Aura)
+  .btn-secondary {
+    background: rgba($vegeta-blue, 0.3);
+    backdrop-filter: $blur-effect;
+    border: 1px solid $vegeta-blue;
+    color: $cloud-white;
 
-    .btn-secondary {
-        background-color: $vegeta-blue;
-        border: 1px solid $vegeta-blue;
-        color: $cloud-white;
-
-        &:hover {
-            background-color: lighten($vegeta-blue, 5%);
-            box-shadow: 0 0 10px 0 lighten($vegeta-blue, 10%);
-        }
-    }
-
-    .btn-danger {
-        background-color: $frieza-purple;
-        border: 1px solid $frieza-purple;
-        color: $cloud-white;
-
-        &:hover {
-            background-color: lighten($frieza-purple, 5%);
-            box-shadow: 0 0 10px 0 lighten($frieza-purple, 10%);
-        }
+    &:hover {
+      background: $vegeta-blue;
+      color: $super-saiyan-yellow; // El texto brilla en amarillo al cargar energía
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 15px rgba($vegeta-blue, 0.6),
+        0 0 30px rgba($vegeta-blue, 0.4);
+      text-shadow: 0 0 8px rgba($super-saiyan-yellow, 0.5);
     }
   }
+
+  // Estilo Ki de Freezer (Purple Aura)
+  .btn-danger {
+    background: rgba($frieza-purple, 0.3);
+    backdrop-filter: $blur-effect;
+    border: 1px solid $frieza-purple;
+    color: $cloud-white;
+
+    &:hover {
+      background: $frieza-purple;
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 15px rgba($frieza-purple, 0.6),
+        0 0 30px rgba($frieza-purple, 0.4);
+      animation: frieza-glow 1.5s infinite alternate;
+    }
+  }
+}
+
+// Animación específica para el aura de Freezer
+@keyframes frieza-glow {
+  from {
+    box-shadow: 0 0 15px rgba($frieza-purple, 0.6);
+  }
+  to {
+    box-shadow: 0 0 25px rgba($frieza-purple, 0.9), 0 0 10px white;
+  }
+}
 }

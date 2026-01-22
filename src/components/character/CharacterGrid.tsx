@@ -23,13 +23,13 @@ export default function CharacterGrid({
                     className="btn btn-sm btn-secondary"
                     onClick={() => handleEdit(character)}
                   >
-                    ✏️ Editar
+                    Editar
                   </button>
                   <button
                     className="btn btn-sm btn-danger"
                     onClick={() => handleDelete(character)}
                   >
-                    🗑️ Eliminar
+                    Eliminar
                   </button>
                 </div>
               )}
