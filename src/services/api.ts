@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { Character, Planet, ApiResponse } from '../types';
+import type { Character, Planet, ApiResponse } from '../types';
 
-const API_BASE_URL = 'https://dragonball-api.com/api';
+const API_BASE_URL = 'https://web.dragonball-api.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -39,7 +39,7 @@ export const characterService = {
   },
 
   // Delete character (simulated)
-  delete: async (id: number) => {
+  delete: async (_id: number) => {
     // await api.delete(`/characters/${id}`);
     return { success: true };
   },

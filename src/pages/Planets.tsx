@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { planetService } from '../services/api';
-import { Planet } from '../types';
+import type { Planet } from '../types';
 
 const Planets: React.FC = () => {
   const [planets, setPlanets] = useState<Planet[]>([]);

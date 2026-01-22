@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Character } from '../types';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import type { Character } from '../types';
 
 interface CharacterModalProps {
   character: Character | null;

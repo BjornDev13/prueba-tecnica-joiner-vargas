@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { characterService } from '../services/api';
-import { Character } from '../types';
+import type { Character } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import CharacterModal from '../components/CharacterModal';
 
