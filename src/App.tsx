@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Characters from './pages/Characters';
 import Planets from './pages/Planets';
+import NotFound from './pages/NotFound';
+import Forbidden from './pages/Forbidden';
 import './styles/main.scss';
 
 function App() {
@@ -31,7 +33,9 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/forbidden" element={<Forbidden />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </AuthProvider>
