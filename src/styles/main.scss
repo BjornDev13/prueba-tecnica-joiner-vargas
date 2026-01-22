@@ -35,7 +35,7 @@ $transparent-bg: rgba(255, 255, 255, 0.05);
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
   color: $text-color;
   background: $dark-bg;
   line-height: 1.6;
@@ -433,13 +433,84 @@ table {
       }
     }
   }
+}
 
   .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1.5rem;
+  display: flex;
+  justify-content: center; // Centrado para diseño de pantalla completa
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-bottom: 2rem;
+  width: 100%;
+
+  .btn {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid $border-color;
   }
+
+  // Botón Cancelar (Estilo Ki de Energía Base / Glass)
+  button[type="button"] {
+    background: rgba(255, 255, 255, 0.05);
+    color: $cloud-white;
+    backdrop-filter: $blur-effect;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: $cloud-white;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+  }
+
+  // Botón Crear/Actualizar (Estilo Super Saiyan Aura)
+  .btn-primary {
+    background: rgba($goku-orange, 0.2);
+    color: $super-saiyan-yellow;
+    border: 1px solid $super-saiyan-yellow;
+    text-shadow: 0 0 8px rgba($super-saiyan-yellow, 0.5);
+
+    &:hover {
+      background: $goku-orange;
+      color: $cloud-white;
+      transform: scale(1.1) translateY(-5px);
+      box-shadow: 
+        0 0 20px $super-saiyan-yellow,
+        0 0 40px rgba($goku-orange, 0.6);
+      
+      // Animación de "destello" al cargar
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 215, 0, 0.4),
+          transparent
+        );
+        transition: all 0.6s;
+        animation: shine-ki 1.5s infinite;
+      }
+    }
+  }
+}
+
+// Animación de destello de energía atravesando el botón
+@keyframes shine-ki {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
 // Filter section
@@ -630,6 +701,16 @@ table {
       }
     }
 
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
     select option {
         background-color: $vegeta-blue; // Fondo oscuro para que combine
         color: $cloud-white;
@@ -768,6 +849,79 @@ table {
 
 .form-group-full-width {
   grid-column: 1 / -1; /* Abarca todas las columnas */
+}
+
+// main.scss o el archivo donde manejes los componentes de la cabecera
+
+.page-header__actions {
+  display: flex;
+  gap: 1rem;
+
+  .btn {
+    padding: 0.8rem 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    border: 1px solid $border-color;
+    background: rgba(255, 255, 255, 0.05); // Glassmorphism base
+    color: $cloud-white;
+    backdrop-filter: $blur-effect;
+
+    // Estilo para el botón de Exportar (Ki Blanco/Energía base)
+    &:not(.btn-primary) {
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: $cloud-white;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        transform: translateY(-3px);
+      }
+    }
+
+    // Estilo para el botón de Crear (Ki Super Saiyan)
+    &.btn-primary {
+      background: rgba($goku-orange, 0.2);
+      border: 1px solid $super-saiyan-yellow;
+      color: $super-saiyan-yellow;
+      position: relative;
+      overflow: hidden;
+
+      &:hover {
+        background: $goku-orange;
+        color: white;
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 
+          0 0 15px $super-saiyan-yellow,
+          0 0 30px rgba($goku-orange, 0.5);
+        text-shadow: 0 0 5px white;
+      }
+
+      // Animación de "brillo de energía" interna
+      &::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      &:hover::after {
+        opacity: 1;
+        animation: ki-spin 3s linear infinite;
+      }
+    }
+  }
+}
+
+@keyframes ki-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Media query para pantallas más pequeñas */
