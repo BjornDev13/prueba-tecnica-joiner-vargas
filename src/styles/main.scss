@@ -1,13 +1,31 @@
-// Variables
-$primary-color: #ff6b35;
-$secondary-color: #004e89;
-$success-color: #06d6a0;
-$danger-color: #ef476f;
-$warning-color: #ffd23f;
-$text-color: #2b2d42;
-$light-bg: #f8f9fa;
-$border-color: #dee2e6;
-$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+// Dragon Ball Z Palette
+$goku-orange: #f85c2c;
+$vegeta-blue: #0a1e3c;
+$super-saiyan-yellow: #ffd700;
+$frieza-purple: #6a0dad;
+$cloud-white: #ffffff;
+$text-color: #e0e0e0;
+$dark-bg: #0d1117;
+$border-color: rgba(255, 255, 255, 0.1);
+$light-bg: #f2f2f2;
+
+// Glassmorphism
+$blur-effect: blur(10px);
+$background-blur: rgba(10, 30, 60, 0.5);
+$box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+$border-radius: 24px;
+
+// src/styles/components/_Filters.scss
+
+// DBZ Color Palette
+$dbz-dark-blue: #0d1117;
+$goku-orange: #f85c2c;
+$super-saiyan-yellow: #ffd700;
+$cloud-white: #ffffff;
+$soft-white-border: rgba(255, 255, 255, 0.1);
+$transparent-bg: rgba(255, 255, 255, 0.05);
+
+@use './components/Cards';
 
 // Reset
 * {
@@ -19,15 +37,18 @@ $box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: $text-color;
-  background-color: $light-bg;
+  background: $dark-bg;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 // Container
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 2rem;
+  display: grid;
+  gap: 2rem;
 }
 
 // Page header
@@ -36,22 +57,34 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  padding: 1rem;
+  background: $background-blur;
+  backdrop-filter: $blur-effect;
+  border-radius: $border-radius;
+  border: 1px solid $border-color;
+  box-shadow: $box-shadow;
 
   h1 {
     margin: 0;
-    color: $text-color;
+    color: $super-saiyan-yellow;
+    text-shadow: 0 0 10px $super-saiyan-yellow;
   }
 }
 
 // Navbar
 .navbar {
-  background-color: $secondary-color;
-  color: white;
+  background: rgba(10, 30, 60, 0.3);
+  backdrop-filter: $blur-effect;
+  -webkit-backdrop-filter: $blur-effect;
+  color: $cloud-white;
   padding: 1rem 2rem;
-  box-shadow: $box-shadow;
+  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 
   .navbar-content {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -59,25 +92,28 @@ body {
   }
 
   .navbar-brand {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
-    color: white;
+    color: $goku-orange;
     text-decoration: none;
+    text-shadow: 0 0 8px $goku-orange;
   }
 
   .navbar-nav {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
     align-items: center;
     list-style: none;
 
     a {
-      color: white;
+      color: $cloud-white;
       text-decoration: none;
-      transition: opacity 0.3s;
+      transition: color 0.3s, text-shadow 0.3s;
+      font-size: 1.1rem;
 
       &:hover {
-        opacity: 0.8;
+        color: $super-saiyan-yellow;
+        text-shadow: 0 0 10px $super-saiyan-yellow;
       }
     }
   }
@@ -88,14 +124,16 @@ body {
     gap: 1rem;
 
     .user-name {
-      font-weight: 500;
+      font-weight: 600;
+      color: $goku-orange;
     }
 
     .user-role {
-      background-color: rgba(255, 255, 255, 0.2);
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      font-size: 0.875rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 0.3rem 0.8rem;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      border: 1px solid $border-color;
     }
   }
 
@@ -150,28 +188,28 @@ body {
 }
 
 .btn-primary {
-  background-color: $primary-color;
+  background-color: $goku-orange;
   color: white;
 }
 
 .btn-secondary {
-  background-color: $secondary-color;
+  background-color: $vegeta-blue;
   color: white;
 }
 
 .btn-success {
-  background-color: $success-color;
+  background-color: $super-saiyan-yellow;
   color: white;
 }
 
 .btn-danger {
-  background-color: $danger-color;
+  background-color: $frieza-purple;
   color: white;
 }
 
 .btn-warning {
-  background-color: $warning-color;
-  color: $text-color;
+  background-color: $goku-orange;
+  color: white;
 }
 
 .btn-sm {
@@ -202,7 +240,7 @@ body {
 
     &:focus {
       outline: none;
-      border-color: $primary-color;
+      border-color: $goku-orange;
     }
   }
 
@@ -213,7 +251,7 @@ body {
 }
 
 .form-error {
-  color: $danger-color;
+  color: $frieza-purple;
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
@@ -239,7 +277,7 @@ table {
   }
 
   th {
-    background-color: $light-bg;
+    background-color: rgba(10, 30, 60, 0.5);
     font-weight: 600;
     color: $text-color;
   }
@@ -286,9 +324,9 @@ table {
     }
 
     &.active {
-      background-color: $primary-color;
+      background-color: $goku-orange;
       color: white;
-      border-color: $primary-color;
+      border-color: $goku-orange;
     }
   }
 
@@ -347,7 +385,7 @@ table {
       justify-content: center;
 
       &:hover {
-        color: $danger-color;
+        color: $frieza-purple;
       }
     }
   }
@@ -384,71 +422,25 @@ table {
 
 // Error
 .error {
-  background-color: lighten($danger-color, 40%);
-  color: $danger-color;
+  background-color: rgba($frieza-purple, 0.2);
+  color: $frieza-purple;
   padding: 1rem;
   border-radius: 4px;
   margin: 1rem 0;
-  border-left: 4px solid $danger-color;
+  border-left: 4px solid $frieza-purple;
 }
 
 // Success message
 .success {
-  background-color: lighten($success-color, 40%);
-  color: darken($success-color, 20%);
+  background-color: rgba($super-saiyan-yellow, 0.2);
+  color: $super-saiyan-yellow;
   padding: 1rem;
   border-radius: 4px;
   margin: 1rem 0;
-  border-left: 4px solid $success-color;
+  border-left: 4px solid $super-saiyan-yellow;
 }
 
 // Character/Planet card grid
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin: 1rem 0;
-}
-
-.character-card,
-.planet-card {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: $box-shadow;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: translateY(-4px);
-  }
-
-  img {
-    width: 100%;
-    height: 200px;
-    object-fit: contain;
-  }
-
-  .card-content {
-    padding: 1rem;
-
-    h3 {
-      margin: 0 0 0.5rem 0;
-      color: $text-color;
-    }
-
-    p {
-      margin: 0.25rem 0;
-      color: lighten($text-color, 20%);
-      font-size: 0.875rem;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-  }
-}
 
 .input-with-clear {
   position: relative;
@@ -466,8 +458,282 @@ table {
     padding: 0;
 
     &:hover {
-      color: $danger-color;
+      color: $frieza-purple;
     }
+  }
+}
+
+
+.filter-section {
+  background: $transparent-bg;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid $soft-white-border;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  .filter-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: end;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-family: 'Roboto', sans-serif;
+      color: $cloud-white;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    select {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid $soft-white-border;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: $cloud-white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $goku-orange;
+        box-shadow: 0 0 10px 0 $goku-orange;
+      }
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23fff'%3E%3Cpath d='M6 9l-6-6h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 30px;
+
+      option {
+        background: #161b22;
+        color: $cloud-white;
+      }
+    }
+  }
+
+  .input-with-clear {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 100%;
+      padding-right: 30px;
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: $cloud-white;
+      cursor: pointer;
+      font-size: 1.2rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 1;
+        color: $goku-orange;
+      }
+    }
+  }
+}
+
+
+// Active filter glow effect
+.form-group {
+    label {
+      color: $goku-orange;
+      margin-bottom: 0.5rem;
+      font-family: 'sans-serif';
+    }
+
+    input,
+    select,
+    textarea {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: $border-radius;
+      padding: 0.75rem;
+      color: $cloud-white;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0);
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $super-saiyan-yellow;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+}
+
+.character-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85); // Un poco más oscuro para resaltar el cristal
+  backdrop-filter: $blur-effect; //
+  -webkit-backdrop-filter: $blur-effect;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.character-modal-content {
+  background: $background-blur; //
+  width: 100vw; // Ocupa todo el ancho de la pantalla
+  height: 100vh; // Ocupa todo el alto de la pantalla
+  border: none; // Eliminamos bordes laterales para pantalla completa
+  border-radius: 0; // Sin redondeado para que encaje perfecto en las esquinas
+  box-shadow: none; 
+  padding: 5rem 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; // Centra el contenido verticalmente
+  text-align: center;
+  overflow-y: auto; // Cambiado de scroll a auto para mejor UX
+
+  // Efecto decorativo de energía en los bordes (opcional DBZ)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, $super-saiyan-yellow, transparent); //
+  }
+}
+
+.character-modal-close {
+  position: fixed; // Fixed para que siempre esté visible al hacer scroll
+  top: 2rem;
+  right: 2rem;
+  background: rgba($frieza-purple, 0.2); // Toque de color Frieza
+  border: 1px solid $border-color;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: $cloud-white; //
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10000;
+
+  &:hover {
+    background: $frieza-purple; //
+    transform: rotate(90deg);
+    box-shadow: 0 0 15px $frieza-purple;
+  }
+}
+
+.character-modal-image {
+  width: 250px; // Más grande para pantalla completa
+  height: 250px;
+  border-radius: 50%;
+  border: 6px solid $super-saiyan-yellow; //
+  box-shadow: 0 0 30px rgba($super-saiyan-yellow, 0.6); // Efecto aura
+  margin-bottom: 2rem;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.character-modal-name {
+  font-size: 3.5rem; // Tamaño impacto tipo título de episodio
+  color: $goku-orange; //
+  text-transform: uppercase;
+  font-weight: 800;
+  text-shadow: 0 0 15px rgba($goku-orange, 0.8); //
+  margin-bottom: 1.5rem;
+}
+
+.character-modal-details {
+  max-width: 800px; // Evita que el texto se estire demasiado en pantallas anchas
+  
+  p {
+    margin: 1rem 0;
+    font-size: 1.4rem;
+    color: $text-color; //
+
+    strong {
+      color: $super-saiyan-yellow; //
+      margin-right: 8px;
+    }
+  }
+}
+
+  .form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* Abarca las 2 columnas para los elementos de la tercera fila */
+.form-grid > .form-group:nth-child(7),
+.form-grid > .form-group:nth-child(8) {
+  grid-column: span 1;
+}
+
+/* Ajuste para que la tercera fila tenga 2 elementos */
+.form-grid > .form-group:nth-child(7) {
+    grid-column: 1 / 2;
+}
+.form-grid > .form-group:nth-child(8) {
+    grid-column: 2 / 4;
+}
+
+
+.form-group-full-width {
+  grid-column: 1 / -1; /* Abarca todas las columnas */
+}
+
+/* Media query para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-grid > .form-group:nth-child(7),
+  .form-grid > .form-group:nth-child(8) {
+    grid-column: span 1;
+  }
+  .form-grid > .form-group:nth-child(7) {
+    grid-column: 1 / -1;
+  }
+  .form-grid > .form-group:nth-child(8) {
+    grid-column: 1 / -1;
   }
 }
 

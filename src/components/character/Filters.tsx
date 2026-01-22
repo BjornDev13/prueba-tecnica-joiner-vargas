@@ -64,13 +64,9 @@ export default function Filters({
             <div className="input-with-clear">
               <input
               type="text"
-              defaultValue={filterKi}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                setFilterKi(e.currentTarget.value);
-                }
-              }}
-              placeholder="Buscar por ki y presionar Enter..."
+              value={filterKi}
+              onChange={(e) => setFilterKi(e.target.value)}
+              placeholder="Buscar por ki..."
               />
               {filterKi && (
               <button

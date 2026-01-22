@@ -26,7 +26,7 @@ const schema = yup.object().shape({
     .min(1, 'La descripción debe tener al menos 1 caracter')
     .max(1000, 'La descripción no puede tener más de 1000 caracteres'),
   originPlanet: yup.string().required('El planeta de origen es requerido'),
-  affiliation: yup.string()
+  affiliation: yup.string().required('La afiliación es requerida')
     .min(3, 'La afiliación debe tener al menos 3 caracteres')
     .max(50, 'La afiliación no puede tener más de 50 caracteres')
     .matches(/^[A-Z]/, 'La primera letra de la afiliación debe ser mayúscula'),
@@ -39,6 +39,10 @@ interface CharacterModalProps {
   onClose: () => void;
 }
 
+type CharacterFormData = Omit<Character, 'id' | 'originPlanet' | 'deletedAt'> & {
+  originPlanet: string;
+};
+
 const CharacterModal: React.FC<CharacterModalProps> = ({
   character,
   onSave,
@@ -50,7 +54,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<Omit<Character, 'id'>>({
+  } = useForm<CharacterFormData>({
     resolver: yupResolver(schema),
   });
 
@@ -88,119 +92,95 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
     }
   }, [character, reset]);
 
-  const onSubmit = (data: Omit<Character, 'id'>) => {
+  const onSubmit = (data: CharacterFormData) => {
     onSave({
+      ...character,
       ...data,
       id: character?.id || 0,
+      originPlanet: planets.find(planet => planet.name === data.originPlanet) || null,
     } as Character);
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>{character ? 'Editar Personaje' : 'Crear Personaje'}</h2>
-          <button className="close-btn" onClick={onClose}>
-            ✕
-          </button>
-        </div>
+    <div className="character-modal-overlay" onClick={onClose}>
+      <div className="character-modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="character-modal-close" onClick={onClose}>
+          ✕
+        </button>
+        <h2>{character ? 'Editar Personaje' : 'Crear Personaje'}</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-group">
-            <label htmlFor="name">Nombre *</label>
-            <input
-              type="text"
-              id="name"
-              {...register('name')}
-            />
-            {errors.name && <p className="error-message">{errors.name.message}</p>}
+         <form onSubmit={handleSubmit(onSubmit)} className="character-form">
+          <div className="form-grid">
+            <div className="form-group">
+              <label htmlFor="name">Nombre *</label>
+              <input type="text" id="name" {...register('name')} />
+              {errors.name && <p className="form-error">{errors.name.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="race">Raza *</label>
+              <input type="text" id="race" {...register('race')} />
+              {errors.race && <p className="form-error">{errors.race.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="gender">Género *</label>
+              <select id="gender" {...register('gender')}>
+                <option value="">Seleccionar género</option>
+                <option value="Male">Masculino</option>
+                <option value="Female">Femenino</option>
+                <option value="Other">Otro</option>
+              </select>
+              {errors.gender && <p className="form-error">{errors.gender.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="ki">Ki *</label>
+              <input type="number" id="ki" {...register('ki')} />
+              {errors.ki && <p className="form-error">{errors.ki.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="maxKi">Ki Máximo *</label>
+              <input type="number" id="maxKi" {...register('maxKi')} />
+              {errors.maxKi && <p className="form-error">{errors.maxKi.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="originPlanet">Planeta de Origen *</label>
+              <select id="originPlanet" {...register('originPlanet')}>
+                <option value="">Seleccionar planeta</option>
+                {planets.map((planet) => (
+                  <option key={planet.id} value={planet.name}>
+                    {planet.name}
+                  </option>
+                ))}
+              </select>
+              {errors.originPlanet && <p className="form-error">{errors.originPlanet.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="affiliation">Afiliación</label>
+              <input type="text" id="affiliation" {...register('affiliation')} />
+              {errors.affiliation && <p className="form-error">{errors.affiliation.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="image">URL de la Imagen *</label>
+              <input
+                type="url"
+                id="image"
+                {...register('image')}
+                placeholder="https://example.com/image.jpg"
+              />
+              {errors.image && <p className="form-error">{errors.image.message}</p>}
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="race">Raza *</label>
-            <input
-              type="text"
-              id="race"
-              {...register('race')}
-            />
-            {errors.race && <p className="error-message">{errors.race.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="gender">Género *</label>
-            <select
-              id="gender"
-              {...register('gender')}
-            >
-              <option value="">Seleccionar género</option>
-              <option value="Male">Masculino</option>
-              <option value="Female">Femenino</option>
-              <option value="Other">Otro</option>
-            </select>
-            {errors.gender && <p className="error-message">{errors.gender.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="ki">Ki *</label>
-            <input
-              type="number"
-              id="ki"
-              {...register('ki')}
-            />
-            {errors.ki && <p className="error-message">{errors.ki.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="maxKi">Ki Máximo *</label>
-            <input
-              type="number"
-              id="maxKi"
-              {...register('maxKi')}
-            />
-            {errors.maxKi && <p className="error-message">{errors.maxKi.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="originPlanet">Planeta de Origen *</label>
-            <select id="originPlanet" {...register('originPlanet')}>
-              <option value="">Seleccionar planeta</option>
-              {planets.map((planet) => (
-                <option key={planet.id} value={planet.name}>
-                  {planet.name}
-                </option>
-              ))}
-            </select>
-            {errors.originPlanet && <p className="error-message">{errors.originPlanet.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="affiliation">Afiliación</label>
-            <input
-              type="text"
-              id="affiliation"
-              {...register('affiliation')}
-            />
-            {errors.affiliation && <p className="error-message">{errors.affiliation.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="image">URL de la Imagen *</label>
-            <input
-              type="url"
-              id="image"
-              {...register('image')}
-              placeholder="https://example.com/image.jpg"
-            />
-            {errors.image && <p className="error-message">{errors.image.message}</p>}
-          </div>
-
-          <div className="form-group">
+          <div className="form-group form-group-full-width">
             <label htmlFor="description">Descripción *</label>
-            <textarea
-              id="description"
-              {...register('description')}
-            />
-            {errors.description && <p className="error-message">{errors.description.message}</p>}
+            <textarea id="description" {...register('description')} />
+            {errors.description && <p className="form-error">{errors.description.message}</p>}
           </div>
 
           <div className="modal-footer">

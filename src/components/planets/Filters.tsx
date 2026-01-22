@@ -14,12 +14,8 @@ export default function Filters({
             <div className="input-with-clear">
                 <input
                 type="text"
-                defaultValue={filterName}
-                onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                    setFilterName(e.currentTarget.value);
-                    }
-                }}
+                value={filterName}
+                onChange={(e) => setFilterName(e.target.value)}
                 placeholder="Buscar por nombre..."
                 />
                 {filterName && (

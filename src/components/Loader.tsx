@@ -9,7 +9,9 @@ const Loader: React.FC<LoaderProps> = ({ show }) => {
 
   return (
     <div className={`loader-overlay ${!show ? 'fade-out' : ''}`}>
-      <div className="loader"></div>
+      <div className="loader-container">
+        <img src="/gif/kamehameha.gif" alt="Loading..." className="loader-gif" />
+      </div>
     </div>
   );
 };

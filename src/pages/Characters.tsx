@@ -129,7 +129,7 @@ const Characters: React.FC = () => {
     const matchesName = character.name.toLowerCase().includes(filterName.toLowerCase());
     const matchesRace = !filterRace || character.race.toLowerCase().includes(filterRace.toLowerCase());
     const matchesKi = !filterKi || character.ki.toLowerCase().includes(filterKi.toLowerCase());
-    const matchesAffiliation = !filterAffiliation || character.affiliation.toLowerCase().includes(filterAffiliation.toLowerCase());
+    const matchesAffiliation = !filterAffiliation || character?.affiliation?.toLowerCase().includes(filterAffiliation.toLowerCase());
     const matchesGender = !filterGender || character.gender.toLowerCase().includes(filterGender.toLowerCase());
     return matchesName && matchesRace && matchesKi && matchesAffiliation && matchesGender;
   });
