@@ -36,6 +36,8 @@ A modern web application built with React, TypeScript, and SASS for managing Dra
 - **Styling**: SASS 1.97.3
 - **Routing**: React Router DOM 7.12.0
 - **HTTP Client**: Axios 1.13.2
+- **Form Management**: React Hook Form 7.71.1
+- **Schema Validation**: Zod 4.3.5 / Yup 1.7.1
 - **Code Quality**: ESLint 9.39.1
 
 ## Getting Started
