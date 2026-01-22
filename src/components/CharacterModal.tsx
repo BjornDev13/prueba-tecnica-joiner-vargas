@@ -58,7 +58,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>{character ? 'Edit Character' : 'Create Character'}</h2>
+          <h2>{character ? 'Editar Personaje' : 'Crear Personaje'}</h2>
           <button className="close-btn" onClick={onClose}>
             ✕
           </button>
@@ -66,7 +66,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Name *</label>
+            <label htmlFor="name">Nombre *</label>
             <input
               type="text"
               id="name"
@@ -78,7 +78,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label htmlFor="race">Race *</label>
+            <label htmlFor="race">Raza *</label>
             <input
               type="text"
               id="race"
@@ -90,7 +90,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label htmlFor="gender">Gender *</label>
+            <label htmlFor="gender">Género *</label>
             <select
               id="gender"
               name="gender"
@@ -98,10 +98,10 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
               onChange={handleChange}
               required
             >
-              <option value="">Select gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option value="">Seleccionar género</option>
+              <option value="Male">Masculino</option>
+              <option value="Female">Femenino</option>
+              <option value="Other">Otro</option>
             </select>
           </div>
 
@@ -118,7 +118,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label htmlFor="maxKi">Max Ki *</label>
+            <label htmlFor="maxKi">Ki Máximo *</label>
             <input
               type="text"
               id="maxKi"
@@ -130,7 +130,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label htmlFor="affiliation">Affiliation *</label>
+            <label htmlFor="affiliation">Afiliación *</label>
             <input
               type="text"
               id="affiliation"
@@ -142,7 +142,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label htmlFor="image">Image URL *</label>
+            <label htmlFor="image">URL de la Imagen *</label>
             <input
               type="url"
               id="image"
@@ -155,7 +155,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label htmlFor="description">Description *</label>
+            <label htmlFor="description">Descripción *</label>
             <textarea
               id="description"
               name="description"
@@ -167,10 +167,10 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
 
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Cancel
+              Cancelar
             </button>
             <button type="submit" className="btn btn-primary">
-              {character ? 'Update' : 'Create'}
+              {character ? 'Actualizar' : 'Crear'}
             </button>
           </div>
         </form>

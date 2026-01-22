@@ -9,15 +9,15 @@ const Navbar: React.FC = () => {
     <nav className="navbar">
       <div className="navbar-content">
         <Link to="/characters" className="navbar-brand">
-          🐉 Dragon Ball Manager
+          🐉 Administrador de Dragon Ball
         </Link>
 
         <ul className="navbar-nav">
           <li>
-            <Link to="/characters">Characters</Link>
+            <Link to="/characters">Personajes</Link>
           </li>
           <li>
-            <Link to="/planets">Planets</Link>
+            <Link to="/planets">Planetas</Link>
           </li>
         </ul>
 
@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
           <span className="user-name">{user?.username}</span>
           <span className="user-role">{user?.role}</span>
           <button onClick={logout} className="logout-btn">
-            Logout
+            Cerrar Sesión
           </button>
         </div>
       </div>

@@ -18,7 +18,7 @@ const Login: React.FC = () => {
     if (success) {
       navigate('/characters');
     } else {
-      setError('Invalid credentials. Try admin/admin123 or user/user123');
+      setError('Credenciales inválidas. Prueba con admin/admin123 o user/user123');
     }
   };
 
@@ -26,31 +26,31 @@ const Login: React.FC = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1>Dragon Ball Manager</h1>
-          <p>Sign in to manage characters and planets</p>
+          <h1>Administrador de Dragon Ball</h1>
+          <p>Inicia sesión para administrar personajes y planetas</p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Usuario</label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
+              placeholder="Ingresa tu usuario"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Contraseña</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
+              placeholder="Ingresa tu contraseña"
               required
             />
           </div>
@@ -58,15 +58,15 @@ const Login: React.FC = () => {
           {error && <div className="error">{error}</div>}
 
           <button type="submit" className="btn btn-primary btn-block">
-            Sign In
+            Iniciar Sesión
           </button>
         </form>
 
         <div className="login-info">
-          <h3>Demo Credentials:</h3>
+          <h3>Credenciales de Demostración:</h3>
           <ul>
-            <li><strong>Admin:</strong> admin / admin123</li>
-            <li><strong>User:</strong> user / user123</li>
+            <li><strong>Administrador:</strong> admin / admin123</li>
+            <li><strong>Usuario:</strong> user / user123</li>
           </ul>
         </div>
       </div>

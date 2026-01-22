@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Character, Planet, ApiResponse } from '../types';
 
-const API_BASE_URL = 'https://web.dragonball-api.com/api';
+const API_BASE_URL = 'https://dragonball-api.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

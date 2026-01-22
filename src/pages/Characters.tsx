@@ -3,6 +3,8 @@ import { characterService } from '../services/api';
 import type { Character } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import CharacterModal from '../components/CharacterModal';
+import Filters from '../components/character/Filters';
+import CharacterGrid from '../components/character/CharacterGrid';
 
 const Characters: React.FC = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -12,6 +14,9 @@ const Characters: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [filterName, setFilterName] = useState('');
   const [filterRace, setFilterRace] = useState('');
+  const [filterKi, setFilterKi] = useState('');
+  const [filterAffiliation, setFilterAffiliation] = useState('');
+  const [filterGender, setFilterGender] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editingCharacter, setEditingCharacter] = useState<Character | null>(null);
   const [localCharacters, setLocalCharacters] = useState<Character[]>([]);
@@ -113,13 +118,27 @@ const Characters: React.FC = () => {
   const filteredCharacters = [...localCharacters, ...characters].filter((character) => {
     const matchesName = character.name.toLowerCase().includes(filterName.toLowerCase());
     const matchesRace = !filterRace || character.race.toLowerCase().includes(filterRace.toLowerCase());
-    return matchesName && matchesRace;
+    const matchesKi = !filterKi || character.ki.toLowerCase().includes(filterKi.toLowerCase());
+    const matchesAffiliation = !filterAffiliation || character.affiliation.toLowerCase().includes(filterAffiliation.toLowerCase());
+    const matchesGender = !filterGender || character.gender.toLowerCase().includes(filterGender.toLowerCase());
+    return matchesName && matchesRace && matchesKi && matchesAffiliation && matchesGender;
   });
 
   // Remove duplicates (in case a character exists both locally and in API)
   const uniqueCharacters = Array.from(
     new Map(filteredCharacters.map((c) => [c.id, c])).values()
   );
+
+  const handleFilterChange = (setter: React.Dispatch<React.SetStateAction<string>>, value: string) => {
+    if (page !== 1) {
+      setPage(1);
+    }
+    setter(value);
+  };
+
+  const handleKiFilterChange = (value: string) => {
+    setFilterKi(value);
+  };
 
   if (loading && characters.length === 0) {
     return <div className="loading">Loading characters...</div>;
@@ -128,86 +147,52 @@ const Characters: React.FC = () => {
   return (
     <div className="container">
       <div className="page-header">
-        <h1>Characters</h1>
+        <h1>Personajes</h1>
         {user?.role === 'admin' && (
           <button className="btn btn-primary" onClick={handleCreate}>
-            ➕ Create Character
+            ➕ Crear Personaje
           </button>
         )}
       </div>
 
       {error && <div className="error">{error}</div>}
 
-      <div className="filter-section">
-        <div className="filter-row">
-          <div className="form-group">
-            <label>Filter by Name</label>
-            <input
-              type="text"
-              value={filterName}
-              onChange={(e) => setFilterName(e.target.value)}
-              placeholder="Search by name..."
-            />
-          </div>
-          <div className="form-group">
-            <label>Filter by Race</label>
-            <input
-              type="text"
-              value={filterRace}
-              onChange={(e) => setFilterRace(e.target.value)}
-              placeholder="Search by race..."
-            />
-          </div>
-        </div>
-      </div>
+      <Filters
+        filterName={filterName}
+        setFilterName={(value) => handleFilterChange(setFilterName, value)}
+        filterRace={filterRace}
+        setFilterRace={(value) => handleFilterChange(setFilterRace, value)}
+        filterKi={filterKi}
+        setFilterKi={handleKiFilterChange}
+        filterAffiliation={filterAffiliation}
+        setFilterAffiliation={(value) => handleFilterChange(setFilterAffiliation, value)}
+        filterGender={filterGender}
+        setFilterGender={(value) => handleFilterChange(setFilterGender, value)}
+      />
 
-      <div className="grid">
-        {uniqueCharacters.map((character) => (
-          <div key={character.id} className="character-card">
-            <img src={character.image} alt={character.name} />
-            <div className="card-content">
-              <h3>{character.name}</h3>
-              <p><strong>Race:</strong> {character.race}</p>
-              <p><strong>Gender:</strong> {character.gender}</p>
-              <p><strong>Ki:</strong> {character.ki}</p>
-              <p><strong>Affiliation:</strong> {character.affiliation}</p>
-              {user?.role === 'admin' && (
-                <div className="card-actions">
-                  <button
-                    className="btn btn-sm btn-secondary"
-                    onClick={() => handleEdit(character)}
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button
-                    className="btn btn-sm btn-danger"
-                    onClick={() => handleDelete(character)}
-                  >
-                    🗑️ Delete
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+      <CharacterGrid
+        uniqueCharacters={uniqueCharacters}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        user={user}
+      />
 
       {!filterName && !filterRace && (
         <div className="pagination">
           <button onClick={() => setPage(1)} disabled={page === 1}>
-            First
+            Primero
           </button>
           <button onClick={() => setPage(page - 1)} disabled={page === 1}>
-            Previous
+            Anterior
           </button>
           <span className="page-info">
-            Page {page} of {totalPages}
+            Página {page} de {totalPages}
           </span>
           <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
-            Next
+            Siguiente
           </button>
           <button onClick={() => setPage(totalPages)} disabled={page === totalPages}>
-            Last
+            Último
           </button>
         </div>
       )}

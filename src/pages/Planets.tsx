@@ -40,13 +40,13 @@ const Planets: React.FC = () => {
   });
 
   if (loading && planets.length === 0) {
-    return <div className="loading">Loading planets...</div>;
+    return <div className="loading">Cargando planetas...</div>;
   }
 
   return (
     <div className="container">
       <div className="page-header">
-        <h1>Planets</h1>
+        <h1>Planetas</h1>
       </div>
 
       {error && <div className="error">{error}</div>}
@@ -54,23 +54,23 @@ const Planets: React.FC = () => {
       <div className="filter-section">
         <div className="filter-row">
           <div className="form-group">
-            <label>Filter by Name</label>
+            <label>Filtrar por Nombre</label>
             <input
               type="text"
               value={filterName}
               onChange={(e) => setFilterName(e.target.value)}
-              placeholder="Search by name..."
+              placeholder="Buscar por nombre..."
             />
           </div>
           <div className="form-group">
-            <label>Filter by Status</label>
+            <label>Filtrar por Estado</label>
             <select
               value={filterDestroyed}
               onChange={(e) => setFilterDestroyed(e.target.value)}
             >
-              <option value="">All</option>
-              <option value="active">Active</option>
-              <option value="destroyed">Destroyed</option>
+              <option value="">Todos</option>
+              <option value="active">Activo</option>
+              <option value="destroyed">Destruido</option>
             </select>
           </div>
         </div>
@@ -83,9 +83,9 @@ const Planets: React.FC = () => {
             <div className="card-content">
               <h3>{planet.name}</h3>
               <p>
-                <strong>Status:</strong>{' '}
+                <strong>Estado:</strong>{' '}
                 <span style={{ color: planet.isDestroyed ? '#ef476f' : '#06d6a0' }}>
-                  {planet.isDestroyed ? 'Destroyed' : 'Active'}
+                  {planet.isDestroyed ? 'Destruido' : 'Activo'}
                 </span>
               </p>
               <p>{planet.description.substring(0, 100)}...</p>
@@ -97,19 +97,19 @@ const Planets: React.FC = () => {
       {!filterName && !filterDestroyed && (
         <div className="pagination">
           <button onClick={() => setPage(1)} disabled={page === 1}>
-            First
+            Primero
           </button>
           <button onClick={() => setPage(page - 1)} disabled={page === 1}>
-            Previous
+            Anterior
           </button>
           <span className="page-info">
-            Page {page} of {totalPages}
+            Página {page} de {totalPages}
           </span>
           <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
-            Next
+            Siguiente
           </button>
           <button onClick={() => setPage(totalPages)} disabled={page === totalPages}>
-            Last
+            Último
           </button>
         </div>
       )}
