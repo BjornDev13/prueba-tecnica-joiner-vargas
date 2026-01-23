@@ -35,7 +35,6 @@ function App() {
           />
           <Route path="/forbidden" element={<Forbidden />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
