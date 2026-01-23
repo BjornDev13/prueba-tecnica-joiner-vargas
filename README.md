@@ -1,103 +1,129 @@
-# Dragon Ball API Client
+# Cliente de la API de Dragon Ball
 
-A modern web application built with React, TypeScript, and SASS for managing Dragon Ball characters and planets using the [Dragon Ball API](https://web.dragonball-api.com/documentation).
+Una aplicación web moderna construida con React, TypeScript y SASS para gestionar personajes y planetas de Dragon Ball utilizando la [API de Dragon Ball](https://web.dragonball-api.com/documentation).
 
-## Features
+## Capturas de Pantalla
 
-### 🔐 Authentication & Authorization
-- Mock login system with role-based access control
-- Two user roles:
-  - **Admin** (`admin/admin123`): Full CRUD access to characters
-  - **User** (`user/user123`): Read-only access to characters and planets
+### Vista de Personajes (Rol: Admin)
+![Vista de Personajes (Admin)](https://i.imgur.com/9V5X027.png)
 
-### 👤 Character Management (CRUD)
-- **Create**: Add new characters with complete information (Admin only)
-- **Read**: View all characters with pagination
-- **Update**: Edit existing character details (Admin only)
-- **Delete**: Remove characters from the system (Admin only)
-- **Filter**: Search characters by name and race
+### Vista de Planetas (Rol: User)
+![Vista de Planetas (User)](https://i.imgur.com/p4S742X.png)
 
-### 🌍 Planet Management
-- View all Dragon Ball planets with pagination
-- Filter planets by name and status (Active/Destroyed)
-- Display planet information including images and descriptions
+### Vista de Inicio de Sesión
+![Vista de Inicio de Sesión](https://i.imgur.com/2h3h2Ah.png)
 
-### 🎨 User Interface
-- Responsive design with SASS styling
-- Card-based layout for easy browsing
-- Modal dialogs for character creation and editing
-- Intuitive navigation and filtering
+## Características
 
-## Technology Stack
+### 🔐 Autenticación y Autorización
+- Sistema de inicio de sesión simulado con control de acceso basado en roles.
+- Dos roles de usuario:
+  - **Admin** (`admin/admin123`): Acceso CRUD completo a los personajes.
+  - **User** (`user/user123`): Acceso de solo lectura a personajes y planetas.
 
-- **Frontend Framework**: React 19.2.0
-- **Language**: TypeScript 5.9.3
-- **Build Tool**: Vite 7.2.4
-- **Styling**: SASS 1.97.3
-- **Routing**: React Router DOM 7.12.0
-- **HTTP Client**: Axios 1.13.2
-- **Form Management**: React Hook Form 7.71.1
-- **Schema Validation**: Zod 4.3.5 / Yup 1.7.1
-- **Code Quality**: ESLint 9.39.1
+### 👤 Gestión de Personajes (CRUD)
+- **Crear**: Añadir nuevos personajes con información completa (solo Admin).
+- **Leer**: Ver todos los personajes con paginación.
+- **Actualizar**: Editar detalles de personajes existentes (solo Admin).
+- **Eliminar**: Eliminar personajes del sistema (solo Admin).
+- **Filtrar**: Buscar personajes por nombre y raza.
 
-## Getting Started
+### 🌍 Gestión de Planetas
+- Ver todos los planetas de Dragon Ball con paginación.
+- Filtrar planetas por nombre y estado (Activo/Destruido).
+- Mostrar información del planeta, incluyendo imágenes y descripciones.
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
+### 🎨 Interfaz de Usuario
+- Diseño responsivo con estilos SASS.
+- Diseño basado en tarjetas para una fácil navegación.
+- Diálogos modales para la creación y edición de personajes.
+- Navegación y filtrado intuitivos.
 
-### Installation
+## Tecnologías Utilizadas
 
-1. Clone the repository:
+- **Framework Frontend**: React 19.2.0
+- **Lenguaje**: TypeScript 5.9.3
+- **Herramienta de Compilación**: Vite 7.2.4
+- **Estilos**: SASS 1.97.3
+- **Enrutamiento**: React Router DOM 7.12.0
+- **Cliente HTTP**: Axios 1.13.2
+- **Gestión de Formularios**: React Hook Form 7.71.1
+- **Validación de Esquemas**: Zod 4.3.5 / Yup 1.7.1
+- **Calidad de Código**: ESLint 9.39.1
+
+## Cómo Empezar
+
+### Prerrequisitos
+- Node.js (v16 o superior)
+- npm o yarn
+
+### Instalación
+
+1. Clona el repositorio:
 ```bash
 git clone https://github.com/BjornDev13/prueba-tecnica-joiner-vargas.git
 cd prueba-tecnica-joiner-vargas
 ```
 
-2. Install dependencies:
+2. Instala las dependencias:
 ```bash
 npm install
 ```
 
-3. Start the development server:
+3. Inicia el servidor de desarrollo:
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+4. Abre tu navegador y navega a `http://localhost:5173`
 
-### Build for Production
+### Compilar para Producción
 
 ```bash
 npm run build
 ```
 
-The production-ready files will be generated in the `dist` directory.
+Los archivos listos para producción se generarán en el directorio `dist`.
 
-### Preview Production Build
+### Vista Previa de la Compilación de Producción
 
 ```bash
 npm run preview
 ```
 
-## Usage
+## Uso
 
-### Login
-1. Navigate to the application
-2. Use one of the demo credentials:
+### Inicio de Sesión
+1. Navega a la aplicación.
+2. Usa una de las credenciales de demostración:
    - Admin: `admin / admin123`
    - User: `user / user123`
-3. Click "Sign In"
+3. Haz clic en "Sign In".
 
-### Managing Characters (Admin Only)
+### Gestionar Personajes (Solo Admin)
 
-#### Create a Character
-1. Click the "➕ Create Character" button
-2. Fill in all required fields:
-   - Name
-   - Race
-   - Gender
+#### Crear un Personaje
+1. Haz clic en el botón "➕ Create Character".
+2. Rellena todos los campos requeridos:
+   - Nombre
+   - Raza
+   - Género
    - Ki
+   - Descripción
+   - URL de la Imagen
+3. Haz clic en "Create Character" para guardar.
+
+#### Editar un Personaje
+1. Haz clic en el icono del lápiz (✏️) en la tarjeta de un personaje.
+2. Modifica la información en el modal.
+3. Haz clic en "Update Character" para guardar los cambios.
+
+#### Eliminar un Personaje
+1. Haz clic en el icono de la papelera (🗑️) en la tarjeta de un personaje.
+2. Confirma la eliminación.
+
+### Filtrar Personajes y Planetas
+- Usa los campos de búsqueda y los menús desplegables en la parte superior de las cuadrículas de personajes y planetas para filtrar los resultados.
    - Max Ki
    - Affiliation
    - Image URL
