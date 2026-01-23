@@ -196,23 +196,6 @@ This application uses the [Dragon Ball API](https://web.dragonball-api.com/docum
 - **Characters Endpoint**: `/api/characters`
 - **Planets Endpoint**: `/api/planets`
 
-## Screenshots
-
-### Login Page
-![Login Page](https://github.com/user-attachments/assets/16e984a0-c2b3-4904-be43-3a6bee818510)
-
-### Characters Page (Admin View)
-![Characters Page](https://github.com/user-attachments/assets/c4e08f36-6e4d-46df-8fa3-b997f9343ce5)
-
-### Create Character Modal
-![Create Character](https://github.com/user-attachments/assets/815bdbab-29e4-4b4c-8e99-559969c14d76)
-
-### Edit Character Modal
-![Edit Character](https://github.com/user-attachments/assets/e18dbfb1-e852-45ab-b08a-872a778ab331)
-
-### Characters Page (User View - Read Only)
-![User View](https://github.com/user-attachments/assets/e0ee2ccd-9423-49d8-9bf0-7c61259dcf65)
-
 ## Contributing
 
 1. Fork the repository
